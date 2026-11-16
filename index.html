@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DevOps CI/CD Automation Dashboard - Demonstrating automated testing and zero-downtime deployment with GitHub Actions and GitHub Pages.">
+  <meta name="author" content="DevOps Engineering Student">
+  <meta name="theme-color" content="#0B0F19">
+  <title>DevOps CI/CD Automation Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <header class="navbar" id="top-nav">
+    <div class="nav-container">
+      <a href="#hero" class="brand-logo" aria-label="DevOps Dashboard Home">
+        <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="m10 15 5-3-5-3v6Z"></path>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        <div class="brand-text">
+          <span class="brand-title">DevOps CI/CD</span>
+          <span class="brand-tag">Pipeline Dashboard</span>
+        </div>
+      </a>
+
+      <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav-menu" id="nav-menu">
+        <a href="#overview" class="nav-link">Overview</a>
+        <a href="#what-is-devops" class="nav-link">What is DevOps?</a>
+        <a href="#ci-section" class="nav-link">CI</a>
+        <a href="#cd-section" class="nav-link">CD</a>
+        <a href="#workflow-diagram" class="nav-link">Workflow</a>
+        <a href="#tech-stack" class="nav-link">Tech Stack</a>
+        <a href="#deployment-status" class="nav-link">Status & Simulator</a>
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#about" class="nav-link">About / College</a>
+        <a href="#deployment-status" class="btn-nav-action">Launch Sim</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1. LANDING PAGE / HERO SECTION -->
+    <section class="hero-section" id="hero">
+      <div class="container hero-container">
+        <div class="hero-badge-strip">
+          <span class="badge badge-success">
+            <span class="status-dot"></span> Pipeline Active
+          </span>
+          <span class="badge badge-primary">GitHub Actions CI/CD</span>
+          <span class="badge badge-accent">Production v1.0.0</span>
+        </div>
+
+        <h1 class="hero-title">
+          DevOps CI/CD <span class="gradient-text">Automation Dashboard</span>
+        </h1>
+
+        <p class="hero-description">
+          A modern, production-grade automated pipeline demonstration built with 
+          <strong>GitHub Actions</strong> and <strong>GitHub Pages</strong>. 
+          Every code push triggers automated testing, static validation, and zero-downtime deployment.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#deployment-status" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            Run Pipeline Simulator
+          </a>
+          <a href="#workflow-diagram" class="btn btn-secondary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+              <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+              <line x1="6" y1="6" x2="6.01" y2="6"></line>
+              <line x1="6" y1="18" x2="6.01" y2="18"></line>
+            </svg>
+            View Architecture
+          </a>
+        </div>
+
+        <!-- Hero Metrics Strip -->
+        <div class="hero-metrics-grid">
+          <div class="metric-card">
+            <div class="metric-icon metric-icon-green">✓</div>
+            <div class="metric-content">
+              <span class="metric-value" id="metric-tests">100%</span>
+              <span class="metric-label">Automated Tests Passing</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon metric-icon-blue">⚡</div>
+            <div class="metric-content">
+              <span class="metric-value">0</span>
+              <span class="metric-label">Manual Deploy Steps</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon metric-icon-purple">⏱</div>
+            <div class="metric-content">
+              <span class="metric-value">&lt; 45s</span>
+              <span class="metric-label">Average Pipeline Time</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon metric-icon-cyan">🌐</div>
+            <div class="metric-content">
+              <span class="metric-value">Live</span>
+              <span class="metric-label">GitHub Pages Target</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. PROJECT OVERVIEW -->
+    <section class="section section-dark" id="overview">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Academic & Engineering Context</span>
+          <h2 class="section-title">Project Overview</h2>
+          <p class="section-subtitle">
+            Bridging the gap between software development and production operations through intelligent automation.
+          </p>
+        </div>
+
+        <div class="grid grid-2">
+          <div class="card card-highlight">
+            <div class="card-icon-header">
+              <span class="badge badge-danger">The Problem</span>
+              <h3 class="card-title">Traditional Manual Deployments</h3>
+            </div>
+            <p class="card-text">
+              In conventional college and legacy industry projects, code deployment is slow, manual, and error-prone:
+            </p>
+            <ul class="feature-list">
+              <li><strong>Manual FTP / SSH:</strong> Code files manually transferred to servers over insecure connections.</li>
+              <li><strong>Untested Code in Production:</strong> Developers skip unit tests under time pressure, leading to crashes.</li>
+              <li><strong>"Works On My Machine":</strong> Software functions on the developer's laptop but breaks on the host server.</li>
+              <li><strong>High Downtime & Fatigue:</strong> Deployment requires late-night releases and manual rollbacks.</li>
+            </ul>
+          </div>
+
+          <div class="card card-highlight card-success-border">
+            <div class="card-icon-header">
+              <span class="badge badge-success">The Solution</span>
+              <h3 class="card-title">Automated CI/CD Pipeline</h3>
+            </div>
+            <p class="card-text">
+              Our GitHub-based automated pipeline provides guaranteed code quality and zero-touch continuous deployment:
+            </p>
+            <ul class="feature-list">
+              <li><strong>Instant Automated Verification:</strong> Every commit triggers a headless test suite running in an isolated runner.</li>
+              <li><strong>Deterministic Environments:</strong> Built on Ubuntu Linux containers ensuring identical runtime configurations.</li>
+              <li><strong>Strict Quality Gates:</strong> Production deployment is physically blocked if any test fails.</li>
+              <li><strong>Zero-Downtime Delivery:</strong> GitHub Pages publishes verified code in under a minute without manual intervention.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. WHAT IS DEVOPS? -->
+    <section class="section" id="what-is-devops">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">DevOps Fundamentals</span>
+          <h2 class="section-title">What is DevOps?</h2>
+          <p class="section-subtitle">
+            A cultural philosophy, collaborative practice, and toolchain designed to deliver software at high velocity with rock-solid reliability.
+          </p>
+        </div>
+
+        <div class="devops-intro-box">
+          <div class="devops-text-col">
+            <p>
+              The word <strong>DevOps</strong> is a compound of <strong>Development (Dev)</strong> and <strong>Operations (Ops)</strong>. 
+              Historically, developers wrote software without knowing how it would run, while operations teams managed servers 
+              without understanding the code. This created an adversarial "wall of confusion".
+            </p>
+            <p>
+              DevOps removes this barrier. By adopting automated pipelines, shared version control, continuous testing, 
+              and automated deployments, teams can build, test, and release reliable software rapidly and repeatedly.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-4 devops-pillars">
+          <div class="card pillar-card">
+            <div class="pillar-num">01</div>
+            <h4 class="pillar-title">Continuous Integration</h4>
+            <p class="pillar-desc">Frequently merging code changes into a shared central branch with automated testing on every commit.</p>
+          </div>
+          <div class="card pillar-card">
+            <div class="pillar-num">02</div>
+            <h4 class="pillar-title">Continuous Delivery & Deployment</h4>
+            <p class="pillar-desc">Automatically preparing, validating, and pushing releases to staging or production environments.</p>
+          </div>
+          <div class="card pillar-card">
+            <div class="pillar-num">03</div>
+            <h4 class="pillar-title">Infrastructure as Code</h4>
+            <p class="pillar-desc">Defining workflow pipelines, runners, and configuration files declaratively using YAML files.</p>
+          </div>
+          <div class="card pillar-card">
+            <div class="pillar-num">04</div>
+            <h4 class="pillar-title">Monitoring & Feedback</h4>
+            <p class="pillar-desc">Gathering instantaneous feedback via build logs, test assertions, and status badges on GitHub.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. CONTINUOUS INTEGRATION (CI) -->
+    <section class="section section-dark" id="ci-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Phase 1: Code Verification</span>
+          <h2 class="section-title">Continuous Integration (CI)</h2>
+          <p class="section-subtitle">
+            Ensuring every proposed change is automatically tested and verified before it can enter the production codebase.
+          </p>
+        </div>
+
+        <div class="grid grid-2">
+          <div class="ci-explanation">
+            <h3 class="subsection-title">How CI Functions in this Project</h3>
+            <p class="paragraph">
+              Continuous Integration prevents "integration hell" by continuously validating small, incremental code commits. 
+              In this repository, whenever a developer runs <code>git push origin main</code> or creates a Pull Request:
+            </p>
+            <ol class="step-ordered-list">
+              <li>
+                <strong>Event Trigger:</strong> GitHub detects the push event via native internal webhooks.
+              </li>
+              <li>
+                <strong>Runner Provisioning:</strong> GitHub Actions allocates a fresh, isolated <code>ubuntu-latest</code> virtual machine.
+              </li>
+              <li>
+                <strong>Checkout Code:</strong> The repository files are retrieved using <code>actions/checkout@v4</code>.
+              </li>
+              <li>
+                <strong>Node.js Setup:</strong> The target runtime is configured using <code>actions/setup-node@v4</code> with dependency caching.
+              </li>
+              <li>
+                <strong>Automated Test Execution:</strong> The test suite (<code>npm test</code>) executes HTML, CSS, JavaScript, and Workflow schema tests.
+              </li>
+              <li>
+                <strong>Quality Gate:</strong> If any test fails, the workflow immediately terminates and flags the commit with a red cross (❌), blocking deployment.
+              </li>
+            </ol>
+          </div>
+
+          <div class="terminal-card">
+            <div class="terminal-header">
+              <div class="terminal-dots">
+                <span class="dot dot-red"></span>
+                <span class="dot dot-yellow"></span>
+                <span class="dot dot-green"></span>
+              </div>
+              <span class="terminal-title">CI Job: ubuntu-latest (npm test)</span>
+            </div>
+            <div class="terminal-body">
+              <p class="term-line"><span class="term-green">✔</span> [1/4] HTML Structure & Semantic Elements Test</p>
+              <p class="term-line"><span class="term-green">✔</span> [2/4] CSS Theme Variables & Responsive Rules</p>
+              <p class="term-line"><span class="term-green">✔</span> [3/4] JavaScript State Machine & Simulator Functions</p>
+              <p class="term-line"><span class="term-green">✔</span> [4/4] GitHub Actions Workflow Schema & Safety Rules</p>
+              <p class="term-divider">--------------------------------------------------</p>
+              <p class="term-line term-bold"><span class="term-cyan">Result:</span> 4 test suites passed (100% success rate)</p>
+              <p class="term-line"><span class="term-cyan">Duration:</span> 1.84s | Memory: 32MB</p>
+              <p class="term-line term-success">CI Status: SUCCESS -> Proceeding to Deployment Gate</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. CONTINUOUS DEPLOYMENT (CD) -->
+    <section class="section" id="cd-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Phase 2: Zero-Touch Delivery</span>
+          <h2 class="section-title">Continuous Deployment (CD)</h2>
+          <p class="section-subtitle">
+            Releasing verified code to live production automatically without human intervention.
+          </p>
+        </div>
+
+        <div class="grid grid-3 cd-comparison">
+          <div class="card comparison-card">
+            <span class="comparison-tag">Stage 1</span>
+            <h3>Continuous Integration</h3>
+            <p>Code is merged and automatically tested on every push.</p>
+            <div class="comparison-status">
+              <span class="badge badge-primary">Tests Passed</span>
+            </div>
+          </div>
+
+          <div class="card comparison-card">
+            <span class="comparison-tag">Stage 2</span>
+            <h3>Continuous Delivery</h3>
+            <p>Code is tested and packaged as a release artifact; deployment requires manual approval.</p>
+            <div class="comparison-status">
+              <span class="badge badge-accent">Human Gate</span>
+            </div>
+          </div>
+
+          <div class="card comparison-card card-featured">
+            <span class="comparison-tag">Stage 3 (Our Project)</span>
+            <h3>Continuous Deployment</h3>
+            <p>Code passes tests and is published directly to GitHub Pages automatically without any manual approval.</p>
+            <div class="comparison-status">
+              <span class="badge badge-success">100% Automated</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cd-security-note">
+          <div class="note-icon">🛡️</div>
+          <div class="note-content">
+            <h4>Security & Zero-Credential Publishing</h4>
+            <p>
+              This pipeline uses GitHub Actions OpenID Connect (OIDC) with GitHub-provided permissions 
+              (<code>pages: write</code>, <code>id-token: write</code>, <code>contents: read</code>). 
+              No private keys, SSH passwords, or personal access tokens are stored in the repository.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. CI/CD WORKFLOW DIAGRAM -->
+    <section class="section section-dark" id="workflow-diagram">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Interactive Architecture</span>
+          <h2 class="section-title">End-to-End CI/CD Pipeline Workflow</h2>
+          <p class="section-subtitle">
+            Visualizing the automated journey from local developer code commit to global production website.
+          </p>
+        </div>
+
+        <!-- Flow Visualizer -->
+        <div class="workflow-visualizer">
+          <div class="pipeline-track">
+            <!-- Step 1 -->
+            <div class="pipe-node active" data-step="1">
+              <div class="node-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              </div>
+              <span class="node-title">1. Developer</span>
+              <span class="node-detail">Writes code & tests</span>
+            </div>
+
+            <div class="pipe-connector"></div>
+
+            <!-- Step 2 -->
+            <div class="pipe-node" data-step="2">
+              <div class="node-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+              </div>
+              <span class="node-title">2. Git Push</span>
+              <span class="node-detail">git push origin main</span>
+            </div>
+
+            <div class="pipe-connector"></div>
+
+            <!-- Step 3 -->
+            <div class="pipe-node" data-step="3">
+              <div class="node-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M14.31 8 20.05 17.94"></path><path d="M9.69 8h11.48"></path><path d="m7.38 12 5.74-9.94"></path><path d="M9.69 16 3.95 6.06"></path><path d="M14.31 16H2.83"></path><path d="m16.62 12-5.74 9.94"></path></svg>
+              </div>
+              <span class="node-title">3. GitHub Repo</span>
+              <span class="node-detail">Webhook event fired</span>
+            </div>
+
+            <div class="pipe-connector"></div>
+
+            <!-- Step 4 -->
+            <div class="pipe-node" data-step="4">
+              <div class="node-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+              </div>
+              <span class="node-title">4. GitHub Actions</span>
+              <span class="node-detail">Runner provisions job</span>
+            </div>
+
+            <div class="pipe-connector"></div>
+
+            <!-- Step 5 -->
+            <div class="pipe-node" data-step="5">
+              <div class="node-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+              </div>
+              <span class="node-title">5. Automated Tests</span>
+              <span class="node-detail">npm test validation</span>
+            </div>
+
+            <div class="pipe-connector"></div>
+
+            <!-- Step 6 -->
+            <div class="pipe-node" data-step="6">
+              <div class="node-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+              </div>
+              <span class="node-title">6. Deployment Job</span>
+              <span class="node-detail">Artifact packaged</span>
+            </div>
+
+            <div class="pipe-connector"></div>
+
+            <!-- Step 7 -->
+            <div class="pipe-node" data-step="7">
+              <div class="node-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              </div>
+              <span class="node-title">7. Live Website</span>
+              <span class="node-detail">GitHub Pages live</span>
+            </div>
+          </div>
+
+          <div class="workflow-info-panel" id="workflow-details">
+            <h4 id="workflow-step-title">Stage 1: Developer Workstation</h4>
+            <p id="workflow-step-desc">
+              Developer works locally, updates code in <code>index.html</code>, <code>style.css</code>, or <code>script.js</code>, 
+              runs local test verification, and stages changes using <code>git add .</code> followed by <code>git commit -m "feat: updates"</code>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. TECHNOLOGY STACK CARDS -->
+    <section class="section" id="tech-stack">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Modern & Lightweight Toolchain</span>
+          <h2 class="section-title">Technology Stack</h2>
+          <p class="section-subtitle">
+            Carefully curated lightweight technologies selected to maximize reliability without unnecessary framework overhead.
+          </p>
+        </div>
+
+        <div class="grid grid-3">
+          <!-- HTML5 -->
+          <div class="card tech-card">
+            <div class="tech-card-header">
+              <div class="tech-icon tech-icon-orange">HTML5</div>
+              <span class="tech-role">Frontend Structure</span>
+            </div>
+            <h3 class="tech-name">Semantic HTML5</h3>
+            <p class="tech-desc">Provides accessible, standard-compliant markup for all dashboard components, diagrams, and logs.</p>
+          </div>
+
+          <!-- CSS3 -->
+          <div class="card tech-card">
+            <div class="tech-card-header">
+              <div class="tech-icon tech-icon-blue">CSS3</div>
+              <span class="tech-role">Styling & UI</span>
+            </div>
+            <h3 class="tech-name">Modern CSS3</h3>
+            <p class="tech-desc">Employs modern CSS custom properties (variables), responsive flexbox/grid systems, and fluid animations.</p>
+          </div>
+
+          <!-- JavaScript -->
+          <div class="card tech-card">
+            <div class="tech-card-header">
+              <div class="tech-icon tech-icon-yellow">JS</div>
+              <span class="tech-role">Client Interactivity</span>
+            </div>
+            <h3 class="tech-name">Vanilla JavaScript</h3>
+            <p class="tech-desc">Lightweight ES6+ script driving interactive pipeline simulation, metrics computation, and tab navigation.</p>
+          </div>
+
+          <!-- Git -->
+          <div class="card tech-card">
+            <div class="tech-card-header">
+              <div class="tech-icon tech-icon-red">GIT</div>
+              <span class="tech-role">Version Control</span>
+            </div>
+            <h3 class="tech-name">Git (Distributed VCS)</h3>
+            <p class="tech-desc">Tracks line-by-line file revisions, manages branching strategies, and powers atomic commit logs.</p>
+          </div>
+
+          <!-- GitHub -->
+          <div class="card tech-card">
+            <div class="tech-card-header">
+              <div class="tech-icon tech-icon-purple">GH</div>
+              <span class="tech-role">Repository & Host</span>
+            </div>
+            <h3 class="tech-name">GitHub Cloud</h3>
+            <p class="tech-desc">Serves as the central remote repository, triggers webhooks on push events, and manages Pull Request reviews.</p>
+          </div>
+
+          <!-- GitHub Actions -->
+          <div class="card tech-card">
+            <div class="tech-card-header">
+              <div class="tech-icon tech-icon-cyan">GHA</div>
+              <span class="tech-role">CI/CD Engine</span>
+            </div>
+            <h3 class="tech-name">GitHub Actions</h3>
+            <p class="tech-desc">Automates continuous integration and continuous deployment jobs using declarative YAML workflow definitions.</p>
+          </div>
+
+          <!-- GitHub Pages -->
+          <div class="card tech-card">
+            <div class="tech-card-header">
+              <div class="tech-icon tech-icon-green">PAGES</div>
+              <span class="tech-role">Production Target</span>
+            </div>
+            <h3 class="tech-name">GitHub Pages</h3>
+            <p class="tech-desc">Fast, secure static hosting distributed across GitHub's global CDN with automated HTTPS certificates.</p>
+          </div>
+
+          <!-- Node.js -->
+          <div class="card tech-card">
+            <div class="tech-card-header">
+              <div class="tech-icon tech-icon-green">NODE</div>
+              <span class="tech-role">Test Automation</span>
+            </div>
+            <h3 class="tech-name">Node.js Test Engine</h3>
+            <p class="tech-desc">High-performance test runner utilizing native assertions to validate HTML, CSS, JavaScript, and workflow files.</p>
+          </div>
+
+          <!-- YAML -->
+          <div class="card tech-card">
+            <div class="tech-card-header">
+              <div class="tech-icon tech-icon-pink">YAML</div>
+              <span class="tech-role">Pipeline Config</span>
+            </div>
+            <h3 class="tech-name">Workflow Definition</h3>
+            <p class="tech-desc">Standard YAML syntax specifying job stages, permission boundaries, trigger events, and execution steps.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. DEPLOYMENT STATUS & SIMULATOR -->
+    <section class="section section-dark" id="deployment-status">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Interactive Demonstration</span>
+          <h2 class="section-title">Deployment Status & Pipeline Simulator</h2>
+          <p class="section-subtitle">
+            Observe the real-time pipeline execution sequence and test the automated build pipeline right here in the dashboard.
+          </p>
+        </div>
+
+        <div class="grid grid-3 status-dashboard-grid">
+          <!-- Status Card 1 -->
+          <div class="card status-indicator-card">
+            <span class="status-indicator-label">Pipeline Environment</span>
+            <div class="status-indicator-value">
+              <span class="status-pill status-pill-success">github-pages (Prod)</span>
+            </div>
+            <p class="status-indicator-caption">Target branch: <code>main</code></p>
+          </div>
+
+          <!-- Status Card 2 -->
+          <div class="card status-indicator-card">
+            <span class="status-indicator-label">Quality Gate Status</span>
+            <div class="status-indicator-value">
+              <span class="status-pill status-pill-success" id="quality-gate-status">All Tests Passing</span>
+            </div>
+            <p class="status-indicator-caption">4/4 Test Suites Green</p>
+          </div>
+
+          <!-- Status Card 3 -->
+          <div class="card status-indicator-card">
+            <span class="status-indicator-label">Deployment Authentication</span>
+            <div class="status-indicator-value">
+              <span class="status-pill status-pill-info">OIDC Token Bound</span>
+            </div>
+            <p class="status-indicator-caption">Zero exposed credentials</p>
+          </div>
+        </div>
+
+        <!-- Simulator Interface -->
+        <div class="simulator-wrapper">
+          <div class="simulator-controls">
+            <div class="sim-info">
+              <h3>Live CI/CD Execution Simulator</h3>
+              <p>Simulates the exact step-by-step GitHub Actions runner process in real time.</p>
+            </div>
+            <div class="sim-actions">
+              <button class="btn btn-primary" id="btn-start-sim">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+                Trigger Pipeline Run
+              </button>
+              <button class="btn btn-secondary" id="btn-reset-sim">Reset Simulator</button>
+            </div>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="pipeline-progress" style="width: 0%;"></div>
+          </div>
+          <div class="progress-stage-label" id="progress-stage-label">Status: Ready to trigger pipeline</div>
+
+          <!-- Simulated Console -->
+          <div class="sim-console">
+            <div class="console-titlebar">
+              <div class="terminal-dots">
+                <span class="dot dot-red"></span>
+                <span class="dot dot-yellow"></span>
+                <span class="dot dot-green"></span>
+              </div>
+              <span>runner@github-actions-virtual-env:~/.work/pipeline</span>
+              <span class="console-clock" id="console-clock">Ready</span>
+            </div>
+            <div class="console-output" id="console-output">
+              <div class="log-entry log-system">[INIT] Simulator standby. Click "Trigger Pipeline Run" to begin demonstration.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. PROJECT FEATURES -->
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Key Architectural Highlights</span>
+          <h2 class="section-title">Project Features</h2>
+          <p class="section-subtitle">
+            Engineered to adhere to industry DevOps best practices and college project guidelines.
+          </p>
+        </div>
+
+        <div class="grid grid-3">
+          <div class="card feature-box">
+            <div class="feature-icon-box">⚡</div>
+            <h3>Automated Webhook Triggers</h3>
+            <p>Every git push to the <code>main</code> branch or pull request automatically starts the CI/CD pipeline without human intervention.</p>
+          </div>
+
+          <div class="card feature-box">
+            <div class="feature-icon-box">🧪</div>
+            <h3>Rigorous Automated Testing</h3>
+            <p>Runs automated unit, DOM semantic, and workflow validation tests using Node.js to verify application integrity before deployment.</p>
+          </div>
+
+          <div class="card feature-box">
+            <div class="feature-icon-box">🛡️</div>
+            <h3>Zero-Downtime Deployment</h3>
+            <p>Artifacts are compiled, packaged, and swapped smoothly on GitHub Pages with zero user-perceptible downtime.</p>
+          </div>
+
+          <div class="card feature-box">
+            <div class="feature-icon-box">🔐</div>
+            <h3>Least-Privilege Security</h3>
+            <p>GitHub Actions uses minimal explicit permissions (<code>pages: write</code>, <code>id-token: write</code>, <code>contents: read</code>), avoiding leaked secret keys.</p>
+          </div>
+
+          <div class="card feature-box">
+            <div class="feature-icon-box">📱</div>
+            <h3>Responsive UI & Clean Code</h3>
+            <p>Zero bloat, pure modern CSS flexbox & grid design, fully responsive on smartphone, tablet, laptop, and 4K displays.</p>
+          </div>
+
+          <div class="card feature-box">
+            <div class="feature-icon-box">🎓</div>
+            <h3>Viva & Demonstration Ready</h3>
+            <p>Interactive simulator and live architectural models designed specifically to help students ace their college project reviews.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. CONTACT / ABOUT / COLLEGE SECTION -->
+    <section class="section section-dark" id="about">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Academic Information</span>
+          <h2 class="section-title">College Project & Academic Details</h2>
+          <p class="section-subtitle">
+            Documentation, institutional metadata, and student presentation reference.
+          </p>
+        </div>
+
+        <div class="grid grid-2">
+          <!-- Academic Metadata Card -->
+          <div class="card academic-card">
+            <div class="card-icon-header">
+              <span class="badge badge-accent">Academic Information</span>
+              <h3 class="card-title">Project Details</h3>
+            </div>
+            <table class="academic-table">
+              <tr>
+                <th>Project Title:</th>
+                <td><strong>GitHub-Based Automated CI/CD Pipeline</strong></td>
+              </tr>
+              <tr>
+                <th>Course / Domain:</th>
+                <td>DevOps & Cloud Computing / Software Engineering</td>
+              </tr>
+              <tr>
+                <th>Candidate / Student:</th>
+                <td><em>[Student Name / Roll Number]</em></td>
+              </tr>
+              <tr>
+                <th>Department:</th>
+                <td>Computer Science & Engineering / IT</td>
+              </tr>
+              <tr>
+                <th>Faculty Guide:</th>
+                <td><em>[Professor / Project Mentor Name]</em></td>
+              </tr>
+              <tr>
+                <th>Repository:</th>
+                <td>GitHub Public Repository (Pages Enabled)</td>
+              </tr>
+              <tr>
+                <th>Pipeline Engine:</th>
+                <td>GitHub Actions (YAML Workflow)</td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- Quick Reference & Manual Steps -->
+          <div class="card manual-steps-card">
+            <div class="card-icon-header">
+              <span class="badge badge-primary">GitHub Configuration</span>
+              <h3 class="card-title">GitHub Pages Setup Guide</h3>
+            </div>
+            <p class="card-text">
+              To activate automated deployment on your personal GitHub account, follow these 3 steps:
+            </p>
+            <ol class="step-ordered-list">
+              <li>
+                Navigate to your repository on <strong>GitHub.com</strong>.
+              </li>
+              <li>
+                Click on <strong>Settings</strong> &gt; <strong>Pages</strong> (in the left sidebar).
+              </li>
+              <li>
+                Under <strong>Build and deployment &gt; Source</strong>, select 
+                <span class="highlight-inline">GitHub Actions</span> (do NOT select "Deploy from a branch").
+              </li>
+              <li>
+                Push this project to <code>main</code>. GitHub Actions will automatically test and deploy your site!
+              </li>
+            </ol>
+            <div class="academic-action-row">
+              <a href="https://github.com" target="_blank" rel="noopener" class="btn btn-secondary btn-sm">
+                Open GitHub.com
+              </a>
+              <a href="#hero" class="btn btn-primary btn-sm">
+                Back to Top ↑
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-left">
+        <p class="footer-brand">DevOps CI/CD Automation Dashboard</p>
+        <p class="footer-copy">Built for College Academic Project Demonstration & DevOps Mastery.</p>
+      </div>
+      <div class="footer-right">
+        <span class="badge badge-outline">HTML5 • CSS3 • JS • Node.js • GitHub Actions • Pages</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

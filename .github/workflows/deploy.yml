@@ -1,0 +1,86 @@
+name: DevOps CI/CD Pipeline
+
+# Controls when the workflow will run
+on:
+  # Triggers on push to the main branch
+  push:
+    branches: [ "main" ]
+  # Triggers on pull requests targeting the main branch
+  pull_request:
+    branches: [ "main" ]
+  # Allows running this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # =========================================================================
+  # CONTINUOUS INTEGRATION (CI) JOB: Automated Testing & Validation
+  # =========================================================================
+  test:
+    name: Continuous Integration (Tests)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Checkout Repository Source Code
+        uses: actions/checkout@v4
+
+      - name: 2. Set up Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 3. Verify & Install Node Dependencies
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+
+      - name: 4. Execute Automated Test Suite (npm test)
+        run: npm test
+
+      - name: 5. Report CI Status
+        if: success()
+        run: echo "CI Stage Completed Successfully! All automated unit and schema tests passed."
+
+  # =========================================================================
+  # CONTINUOUS DEPLOYMENT (CD) JOB: Production Deployment to GitHub Pages
+  # =========================================================================
+  deploy:
+    name: Continuous Deployment (GitHub Pages)
+    runs-on: ubuntu-latest
+    needs: test # CRITICAL: Deployment only proceeds if CI test job passes!
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: 1. Checkout Repository Source Code
+        uses: actions/checkout@v4
+
+      - name: 2. Configure GitHub Pages Environment
+        uses: actions/configure-pages@v5
+
+      - name: 3. Package & Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: 4. Deploy Artifact to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
